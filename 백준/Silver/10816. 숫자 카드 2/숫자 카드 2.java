@@ -5,32 +5,29 @@ import java.util.HashMap;
 import java.util.StringTokenizer;
 
 public class Main {
-	
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine());
-		StringBuilder sb = new StringBuilder();
-		HashMap<Integer, Integer> hash = new HashMap<Integer, Integer>();
-		
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		for(int i = 0; i < N; i++) {
-			int input = Integer.parseInt(st.nextToken());
-            //해당 key값에 저장된 value가 null이면 1을 대입 아니면 +1을 해준다.
-			if(hash.get(input) == null) hash.put(input, 1);
-			else hash.put(input, hash.get(input) + 1);
-		}
-		
-		
-		int M = Integer.parseInt(br.readLine());
-		
-		st = new StringTokenizer(br.readLine());
-		for(int i = 0; i < M; i++) {
-			int input = Integer.parseInt(st.nextToken());
-            //해당 key값에 저장된 value가 null이면 0을 sb에 저장해준다.
-			if(hash.get(input) == null) sb.append(0).append(" ");
-			else sb.append(hash.get(input)).append(" ");
-		}
-		System.out.println(sb);
-	}
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder();
+        HashMap<Integer,Integer> hm = new HashMap<Integer,Integer>();
 
+        int n = Integer.parseInt(st.nextToken());
+        st = new StringTokenizer(br.readLine());
+
+        for(int i = 0;i<n;i++){
+            int num = Integer.parseInt(st.nextToken());
+            hm.put(num,hm.getOrDefault(num,0) + 1);
+        }
+
+        int m = Integer.parseInt(br.readLine());
+        st = new StringTokenizer(br.readLine());
+
+        for(int j =0; j<m;j++){
+            int key = Integer.parseInt(st.nextToken());
+            sb.append(hm.getOrDefault(key,0)+" ");
+        }
+
+        System.out.println(sb);
+
+    }
 }
