@@ -1,59 +1,76 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
-    static int N;
-    static List<List<Integer>> l = new ArrayList<>();
-    static int[] parentNum;
+    static int n;
+    static int m;
     static int[] answer;
+    static int[] forCheck;
+    static List<List<Integer>> graph;
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+        //노드의 개수 : n : 6
+        //선행 조건 개수 : m : 4
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
-        parentNum = new int[N+1];
-        answer = new int[N+1];
-        for(int i = 0; i<=N; i++)
-            l.add(new ArrayList<>());
+        answer = new int[n+1]; //0~n 학기까지 존재
+        forCheck = new int[n+1]; //차수를 구하기 위한 리스트
 
-        while(M-->0){
+
+
+        //처음에 연결 상태를 위한 Array
+        graph = new ArrayList<>();
+
+        //graph의 모든 노드에 먼저 연결할 arrayList 삽입해놓기
+        for(int j = 0; j<=n;j++){
+            graph.add(new ArrayList<>());
+        }
+
+        //이후에, 각 index별로 second 값 넣기
+        for(int i = 0; i<m; i++){
             st = new StringTokenizer(br.readLine());
+            int first = Integer.parseInt(st.nextToken());
+            int second = Integer.parseInt(st.nextToken());
 
-            int A = Integer.parseInt(st.nextToken());
-            int B = Integer.parseInt(st.nextToken());
-
-            l.get(A).add(B);
-            parentNum[B]++;
+            graph.get(first).add(second);
+            forCheck[second]++;
         }
 
         topologicalSort();
 
-        for(int i = 1; i<=N; i++)
-            System.out.print(answer[i]+" ");
-        System.out.println();
+        for(int k = 1; k <= n; k++){
+            System.out.print(answer[k] + " ");
+        }
     }
 
-    static void topologicalSort(){
-        Queue<Integer> q = new LinkedList<>();
+    public static void topologicalSort(){
+        //실제 노드들을 위상정렬로 넣을 QUEUE
+        Queue<Integer> queue = new LinkedList<>();
 
-        for(int i = 1; i<=N; i++)
-            if(parentNum[i] == 0){
-                q.offer(i);
+        //처음 진입차수가 0인 노드들 큐에 담기
+        for(int i = 1; i<=n; i++){
+            if(forCheck[i] == 0){
+                queue.add(i);
                 answer[i] = 1;
             }
+        }
 
-        while(!q.isEmpty()){
-            int num = q.poll();
+        while(!queue.isEmpty()){
+            int num = queue.poll();
 
-            for(int i : l.get(num)){
-                parentNum[i]--;
+            for(int v : graph.get(num)){
+                forCheck[v]--;
 
-                if(parentNum[i] == 0){
-                    q.offer(i);
-                    answer[i] = answer[num] + 1;
+                if(forCheck[v] == 0){
+                    queue.add(v);
+                    answer[v] = answer[num]+1;
                 }
             }
         }
