@@ -10,7 +10,7 @@ class Solution {
         } else {
             return answer;
         }
-
         return answer;
     }
 }
+//return money - answer < 0 ? Math.abs(answer - money) : 0;
