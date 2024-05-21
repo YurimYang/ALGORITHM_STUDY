@@ -31,10 +31,7 @@ class Solution {
         }        
         
         int maxAnswer = 0;
-        
-        maxAnswer = Math.max(ansA, ansB);
-        maxAnswer = Math.max(maxAnswer, ansC);
-        
+        maxAnswer = Math.max(Math.max(ansA, ansB), ansC);
         
         if(maxAnswer == ansA){
             answer.add(1);
