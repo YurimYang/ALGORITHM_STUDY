@@ -2,9 +2,8 @@ import java.util.*;
 import java.io.*;
 
 class Solution {
-    public int solution(int[] citations) {
+    public int solution2(int[] citations) {
         int answer = 0;
-        
         for(int h = 0; h<=citations.length; h++){
             int cnt = 0;
             int notCnt = 0;
@@ -22,7 +21,26 @@ class Solution {
         }
         return answer;
     }
+    
+    public int solution(int[] citations) {
+        int answer = 0; 
+        
+        Arrays.sort(citations);
+        
+        
+        for(int i = 0; i<citations.length; i++){
+            int min = Math.min(citations[i], citations.length-i);
+            answer = Math.max(answer, min);
+        }
+        
+        System.out.println(answer);
+        
+        return answer;
+        
+    }
 }
+
+
 
 // 논문 n 편
 // h 번 이상 인용된 논문이 h 편 이상 & 나머지 논문이 h번 이하의 인용 => h의 최댓값
