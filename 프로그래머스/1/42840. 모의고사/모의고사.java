@@ -19,23 +19,16 @@ class Solution {
 
 
         for(int i = 0; i<len; i++){
-            newA[i] = As[i%5];
-            newB[i] = Bs[i%8];
-            newC[i] = Cs[i%10];
-        }
-        
-        
-        for(int i = 0; i<len; i++){
-            if(answers[i] == newA[i]){
+            if(As[i%5] == answers[i]){
                 ansA++;
-            } 
-            if(answers[i] == newB[i]){
+            };
+            if(Bs[i%8] == answers[i]){
                 ansB++;
-            } 
-            if(answers[i] == newC[i]){
+            }
+            if(Cs[i%10] == answers[i]){
                 ansC++;
             }
-        }
+        }        
         
         int maxAnswer = 0;
         
