@@ -1,25 +1,42 @@
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.io.*;
+
 class Solution {
-    public static int[] solution(int brown, int yellow) {
-        int[] answer = {0,0};
-        int width, height = 0;
-        int size = brown + yellow;
-        // 갈색 박스 = (노란박스의 세로 + 노란박스의 가로) * 2 + 4 (각 테두리의 꼭짓점)
+    public int[] solution(int brown, int yellow) {
+        int[] answer = new int[2];
+        List<Pair> list = new ArrayList<>();
         
-        for(int i = 3; i< size; i++){ //i = 노란색의 세로길이, j = 노란색의 가로길이 (모두 3 이상)
-            int j = size / i;
-            
-            if(j >=3 && size % i == 0){
-                if(i>j) break;
+        //1. yellow의 가로 세로 구하기
+        for(int i = 1; i <= yellow; i++){
+            if(yellow % i == 0){
+                int otherNum = yellow/i;
+                Pair pair1 = new Pair(otherNum, i);
+                Pair pair2 = new Pair(i, otherNum);
                 
-                if ((i+j) * 2 - 4 == brown) {
-                    answer[0] = j;
-                    answer[1] = i;
-                    return answer;
-                }
+                if(otherNum >= i && !list.contains(pair1) && !list.contains(pair2)){
+                    list.add(new Pair(otherNum, i));
+                } 
             }
         }
+        
+        for(Pair pair : list){
+            if((pair.x + 2) * (pair.y + 2) == brown+yellow){
+                answer[0] = pair.x + 2;
+                answer[1] = pair.y + 2;
+            }
+        }
+        
+        
         return answer;
+    }
+}
+
+class Pair{
+    int x;
+    int y;
+    
+    public Pair(int x, int y){
+        this.x = x;
+        this.y = y;
     }
 }
