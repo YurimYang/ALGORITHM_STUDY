@@ -2,36 +2,24 @@ import java.util.*;
 import java.io.*;
 
 class Solution {
-    static String[] alpha = new String[]{"A", "E", "I", "O", "U"};
-    static List<String> wordList = new ArrayList<>();
+    static List<String> list = new ArrayList<>();
+    static String[] dict = {"A", "E", "I", "O", "U"};
+    static int answer = 0;
     public int solution(String word) {
-        int answer = 0;
-        
         dfs(word, "", 0);
         
-        for(int i = 0; i<wordList.size(); i++){
-            if(wordList.get(i).equals(word)){
-                answer = i;
-                break;
-            }
-        }
-        
-        return answer;
+        return list.indexOf(word);
     }
     
-    public void dfs(String word, String line, int depth){
-        wordList.add(line);
+    public void dfs(String word, String tmp, int depth){
+        list.add(tmp);
         
         if(depth == 5){
             return;
         }
         
-        for(int i = 0; i<alpha.length; i++){
-
-            dfs(word, line+alpha[i], depth+1);
+        for(int i = 0; i<dict.length; i++){
+            dfs(word, tmp+dict[i], depth+1);    
         }
     }
 }
-
-
-		
