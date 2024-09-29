@@ -1,39 +1,49 @@
 import java.util.*;
+import java.io.*;
 
 class Solution {
-    public int[] solution(int[] progresses, int[] speeds) {
-
-        ArrayList<Integer> list = new ArrayList<>();
-        Queue<Integer> q = new LinkedList<>();
-
-        for (int i = 0; i < progresses.length; i++) {
-            if ((100 - progresses[i]) % speeds[i] == 0) {
-                q.add((100 - progresses[i]) / speeds[i]);
+    static Queue<Integer> queue = new LinkedList<>();
+    static HashMap<Integer, Integer> map = new HashMap<>();
+    static List<Integer> list = new ArrayList<>();
+    public List<Integer> solution(int[] progresses, int[] speeds) {
+        List<Integer> answer = new ArrayList<>();
+        
+        //남은 날짜 queue에 추가
+        for(int i = 0; i< progresses.length; i++){
+            int left = (100 - progresses[i]) / speeds[i];
+            if((100 - progresses[i]) % speeds[i] == 0){
+                queue.add(left);
             } else {
-                q.add((100 - progresses[i]) / speeds[i] + 1);
+                queue.add(left+1);
             }
         }
-
-        int x = q.poll();
-        int count = 1;
-        while (!q.isEmpty()) {
-            if (x >= q.peek()) {
-                count++;
-                q.poll();
+        
+        
+        int day = 0;
+        
+        while(!queue.isEmpty()){
+            int curr = queue.poll();
+            if(map.isEmpty()){
+                map.put(curr, 1);
+                day = curr;
+                list.add(day);
             } else {
-                list.add(count);
-                count = 1;
-                x = q.poll();
-            }
+                if(day >= curr){
+                    map.put(day, map.get(day) + 1);
+                } else if (day < curr) {
+                    map.put(curr, 1);
+                    day = curr;
+                    list.add(day);
+                }
+            } 
         }
-        list.add(count);
-
-        int[] answer = new int[list.size()];
-        for (int i = 0; i < answer.length; i++) {
-            answer[i] = list.get(i);
+        
+        for(int i : list){
+            answer.add(map.get(i));
         }
-
-
+        
+        
+        
         return answer;
     }
 }
