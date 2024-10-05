@@ -4,15 +4,16 @@ import java.io.*;
 class Solution {
     public int[] solution(int[] array, int[][] commands) {
         int[] answer = new int[commands.length];
-        int idx = 0;
-        for(int[] intArr : commands){
-            List<Integer> subList = new ArrayList<>();
-            for(int j = intArr[0] - 1; j<intArr[1]; j++){
-                subList.add(array[j]);
-            }
-            Collections.sort(subList);
-            answer[idx++] = subList.get(intArr[2]-1);
+        int answerIdx = 0;
+        for(int[] command : commands){
+            int s = command[0];
+            int e = command[1];
+            int idx = command[2];
             
+            int[] newArr = Arrays.copyOfRange(array,s-1,e);
+            Arrays.sort(newArr);
+            answer[answerIdx] = newArr[idx-1];
+            answerIdx++;
         }
         return answer;
     }
