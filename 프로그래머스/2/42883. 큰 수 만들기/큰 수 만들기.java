@@ -16,9 +16,6 @@ class Solution {
             }
             answer.append(Integer.toString(max));
         }
-        
-       
-        
         return answer.toString();
     }
 }
