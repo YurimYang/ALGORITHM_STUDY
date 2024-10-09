@@ -1,44 +1,44 @@
 import java.util.*;
+import java.io.*;
+
 class Solution {
-    public static int solution(String s) {
+    public int solution(String s) {
         int answer = 0;
-        String extendS = s+s;
-        for(int i = 0; i<s.length();i++){
-            String targetS = extendS.substring(i,i+(s.length()));
-            if(isCorrectString(targetS)){
+        int count = s.length(); //회전 경우의 수
+        StringBuilder sb = new StringBuilder();
+
+        for(int i = 0; i<s.length(); i++){
+            String newString = s.substring(i, s.length()) + s.substring(0,i);
+            if(isCorrectString(newString)){
                 answer++;
             }
         }
+        
+        
         return answer;
     }
-    public static boolean isCorrectString(String s) {
-        Stack<Character> stk = new Stack<>();
-        Stack<Character> leftOvers = new Stack<>();
-        for(int i = 0; i<s.length(); i++){
-            char c = s.charAt(i);
-            if(c == '(' || c == '{' || c== '['){
-                stk.push(c);
-            } else if (stk.size() > 0 && c == ')' && stk.peek() == '(' ){
-                leftOvers.push(stk.peek());
-                stk.pop();
-            } else if(stk.size() > 0 && c == '}' && stk.peek() == '{' ){
-                leftOvers.push(stk.peek());
-                stk.pop();
-            } else if(stk.size() > 0 && c == ']' && stk.peek() == '[' ){
-                leftOvers.push(stk.peek());
-                stk.pop();
+               
+    
+    public boolean isCorrectString(String sentence){
+        Stack<Character> stack = new Stack<>();
+        for(char ch : sentence.toCharArray()){
+            if(!stack.isEmpty()&& isCouple(stack.peek(), ch)){
+                stack.pop();
+            } else {
+                stack.push(ch);
             }
-        }        
-
-        if(stk.isEmpty() && leftOvers.size() > 0){
+        }
+        if(stack.isEmpty()){
             return true;
         }
         return false;
     }
+    
+    public boolean isCouple(Character in, Character out){
+        if((in == '{' && out == '}') || (in == '(' && out == ')') 
+           || (in == '[' && out ==']')){
+            return true;
+        } 
+        return false;
+    }
 }
-
-// {(})
-// (}){
-// }){(
-// ){(}
-     
