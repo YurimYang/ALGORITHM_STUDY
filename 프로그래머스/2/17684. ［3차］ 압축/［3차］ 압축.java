@@ -2,48 +2,49 @@ import java.util.*;
 import java.io.*;
 
 class Solution {
-    static HashMap<String, Integer> wordMap = new HashMap<>();
-    static List<Integer> answer = new ArrayList<>();
-    static int idx = 0;
-    static String w, c = "";
+    static HashMap<String, Integer> hm = new HashMap<>();
     public List<Integer> solution(String msg) {
+        List<Integer> answer = new ArrayList<>();
         init();
-        rotate(msg);
-        return answer;
-
-    }
-    
-public static void rotate(String msg){
+        int idx = 0;
+        
         while(idx < msg.length()){
-            w = String.valueOf(msg.charAt(idx));
+            String w = String.valueOf(msg.charAt(idx));
             int step = 0;
             boolean found = false;
-
             for(int j = idx+1; j<msg.length(); j++){
-                c = String.valueOf(msg.charAt(j));
+                String c = String.valueOf(msg.charAt(j));
                 String wc = w + c;
                 step += 1;
-                if(wordMap.containsKey(wc)){
+                if(hm.containsKey(wc)){
                     w = wc;
-                } else{
-                    answer.add(wordMap.get(w));
-                    wordMap.put(wc, wordMap.size() + 1);
+                } else {
+                    answer.add(hm.get(w));
+                    hm.put(wc,hm.size()+1);
                     found = true;
                     break;
                 }
             }
-            if (!found) {
-                answer.add(wordMap.get(w));
-                idx += step + 1; // 마지막에 도달했을 경우를 고려하여 idx를 증가시킴
+            
+            if(!found){
+                answer.add(hm.get(w));
+                idx += step +1;
             } else {
                 idx += step;
             }
+            
+            
+            
         }
+        
+        
+        return answer;
     }
-
-    public static void init(){
+    
+    public void init(){
         for(int i = 0; i<26; i++){
-            wordMap.put(String.valueOf((char)('A' + i)), i+1);
+            hm.put(String.valueOf((char) ('A'+i)), i+1);
         }
     }
 }
+
