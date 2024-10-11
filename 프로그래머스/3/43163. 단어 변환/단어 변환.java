@@ -1,61 +1,69 @@
 import java.util.*;
+import java.io.*;
 
 class Solution {
+    static Queue<Word> queue = new LinkedList<>();
     public int solution(String begin, String target, String[] words) {
-        // target이 words에 없으면 변환 불가
-        if (!Arrays.asList(words).contains(target)) {
+        int answer = 0;
+        queue.offer(new Word(0,begin));
+        
+        int tmp = 0;
+        for(String word : words){
+            if(!word.equals(target)){
+                tmp++;
+            }
+        }
+        if(tmp == words.length){
             return 0;
         }
+
+        answer = bfs(words, target);
         
-        // BFS를 위한 큐와 방문 여부를 기록할 Set
-        Queue<Node> queue = new LinkedList<>();
-        Set<String> visited = new HashSet<>();
         
-        // 첫 시작 단어 삽입
-        queue.add(new Node(begin, 0)); 
-        visited.add(begin);
         
-        // BFS 탐색
-        while (!queue.isEmpty()) {
-            Node current = queue.poll();
+        
+        return answer;
+    }
+    
+    public int bfs(String[] words, String target){
+        while(!queue.isEmpty()){
+            Word curr = queue.poll();
             
-            // target에 도달했으면 단계 수 리턴
-            if (current.word.equals(target)) {
-                return current.steps;
+            if(curr.word.equals(target)){
+                return curr.depth;
             }
             
-            // 아직 도달하지 않았다면 변환 가능한 단어 탐색
-            for (String word : words) {
-                if (!visited.contains(word) && isChangeable(current.word, word)) {
-                    visited.add(word);  // 방문 처리
-                    queue.add(new Node(word, current.steps + 1));
+            for(int i = 0; i<words.length; i++){
+                if(onlyOneDiff(curr.word, words[i])){
+                    queue.add(new Word(curr.depth + 1, words[i]));
                 }
             }
         }
-        
-        // target에 도달할 수 없으면 0 리턴
         return 0;
     }
     
-    // 두 단어가 한 글자만 다른지 확인
-    private boolean isChangeable(String before, String after) {
-        int diffCount = 0;
-        for (int i = 0; i < before.length(); i++) {
-            if (before.charAt(i) != after.charAt(i)) {
-                diffCount++;
+    public boolean onlyOneDiff(String now, String before){
+        int tmp = 0;
+        for(int i = 0; i<now.length(); i++){
+            if(now.charAt(i) != before.charAt(i)){
+                tmp++;
             }
         }
-        return diffCount == 1;
+        if(tmp == 1){
+            return true;
+        }
+        return false;
     }
     
-    // BFS 탐색을 위한 노드 클래스 (단어와 현재까지의 단계 수 저장)
-    class Node {
-        String word;
-        int steps;
-        
-        Node(String word, int steps) {
-            this.word = word;
-            this.steps = steps;
-        }
+    
+}
+
+class Word{
+    int depth;
+    String word;
+    
+    public Word(int depth, String word){
+        this.depth = depth;
+        this.word = word;
     }
 }
