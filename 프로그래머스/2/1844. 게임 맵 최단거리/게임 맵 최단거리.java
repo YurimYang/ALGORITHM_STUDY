@@ -2,60 +2,52 @@ import java.util.*;
 import java.io.*;
 
 class Solution {
-    static int[][] visited, step;
-    static int n, m;
+    static int[][] visited;
     static Queue<Point> queue = new LinkedList<>();
+    static int[] dx = {-1,1,0,0}; 
+    static int[] dy = {0,0,-1,1};
+    static int answer = 0;
+    static int n, m = 0;
     public int solution(int[][] maps) {
-        int answer = -1;
+        visited = new int[maps.length][maps[0].length];
         n = maps.length;
-        m = maps[0].length;
-        visited = new int[n][m];
-        step = new int[n][m];
-        
-        //첫번째 초기화
-        queue.add(new Point(0,0));
+        m = maps[0].length; 
         visited[0][0] = 1;
-        
-        
-        BFS(maps);
-        
-        if(step[n-1][m-1] > 0){
-            answer = step[n-1][m-1] +1;
-        } 
-         
-        return answer;
+        queue.offer(new Point(0,0));
+        bfs(maps);
+        if(visited[n-1][m-1] == 0){
+            return -1;
+        }
+        return visited[n-1][m-1];
     }
-    public void BFS(int[][] maps){
-        int[] dx = new int[]{-1,1,0,0};
-        int[] dy = new int[]{0,0,-1,1};
-        
+    
+    public void bfs(int[][] maps){
         while(!queue.isEmpty()){
-            Point currP = queue.poll();
+            Point curr = queue.poll();
+            
             for(int i = 0; i<4; i++){
-                int nx = currP.x + dx[i];
-                int ny = currP.y + dy[i];
+                int nx = curr.x + dx[i];
+                int ny = curr.y + dy[i];
                 
-                if(canGo(nx, ny, maps)){
-                    queue.add(new Point(nx, ny));
-                    visited[nx][ny] = 1;
-                    step[nx][ny] = step[currP.x][currP.y] + 1; 
+                if(canGo(maps, nx, ny)){
+                    visited[nx][ny] = visited[curr.x][curr.y] + 1;
+                    queue.offer(new Point(nx, ny));
                 }
             }
         }
     }
     
-    public boolean canGo(int x, int y, int[][] maps){
-        if(!inRange(x,y)){
-            return false; 
-        } 
-        if(visited[x][y] != 0 || maps[x][y] == 0){
+    public boolean canGo(int[][] maps, int x, int y){
+        if(!inRange(x, y)){
+            return false;
+        } else if(maps[x][y] == 0 || visited[x][y] > 0){
             return false;
         }
         return true;
     }
     
     public boolean inRange(int x, int y){
-        return 0<=x && x<n && 0 <=y && y<m;
+        return 0 <= x && x<n && 0<=y && y <m;
     }
 }
 
