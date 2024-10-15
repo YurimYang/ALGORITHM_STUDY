@@ -1,23 +1,25 @@
-import java.util.*;
-import java.io.*;
-
 class Solution {
     public int solution(int[][] sizes) {
         int answer = 0;
-        int maxX = 0; //가로
-        int maxY = 0; //세로
-        for(int[] size : sizes) {
-            maxX = Math.max(maxX, Math.max(size[0], size[1]));
-            maxY = Math.max(maxY, Math.min(size[0], size[1]));
+        //가로 > 세로 일경우 변경하기
+        for(int i = 0; i<sizes.length; i++){
+            if(sizes[i][0] > sizes[i][1]){
+                int tmp = sizes[i][0];
+                sizes[i][0] = sizes[i][1];
+                sizes[i][1] = tmp;
+            }
         }
         
-    
-        answer = maxX * maxY;
+        int a = 0;
+        int b = 0;
+        for(int i = 0; i<sizes.length; i++){
+            a = Math.max(a, sizes[i][0]);
+            b = Math.max(b, sizes[i][1]);
+        }
         
+        answer = a * b;
         
-
         return answer;
     }
-    
-
 }
+
