@@ -1,20 +1,17 @@
-import java.util.*;
-import java.io.*;
-
 class Solution {
     public int[][] solution(int[][] arr1, int[][] arr2) {
-        int width = arr2.length;
-        int length = arr2[0].length;
-        int[][] answer = new int[arr1.length][length];
-        int idx = 0; 
-        for(int[] arrOuter : arr1){
-            for(int i = 0; i<length; i++){ 
-                for(int j = 0; j<width; j++){
-                    answer[idx][i] += arrOuter[j] * arr2[j][i];
-                }     
+        int[][] answer = new int[arr1.length][arr2[0].length];
+        
+        // 행렬 곱셈 로직
+        for (int i = 0; i < arr1.length; i++) {
+            for (int j = 0; j < arr2[0].length; j++) {
+                for (int z = 0; z < arr1[0].length; z++) {
+                    answer[i][j] += arr1[i][z] * arr2[z][j];
+                }
             }
-            idx++;
         }
+        
+        
         return answer;
     }
 }
