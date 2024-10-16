@@ -6,23 +6,21 @@ class Solution {
         long answer = 0;
         PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
         
-        
-        
         for(int i = 0; i<works.length; i++){
             pq.offer(works[i]);
         }
         
         while(n > 0){
-            pq.offer(pq.poll()-1);
+            int max = pq.poll();
+            if(max <=0){
+                break;
+            }
+            pq.offer(max - 1);
             n--;
         }
         
         while(!pq.isEmpty()){
-            if(pq.peek() > 0){
-                answer += Math.pow(pq.poll(), 2);
-            } else {
-                pq.poll();
-            }       
+            answer += Math.pow(pq.poll(), 2);
         }
         
         return answer;
