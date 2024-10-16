@@ -1,12 +1,15 @@
 import java.util.*;
 import java.io.*;
 
+
+//J(A,B) = A교B / A합B
+//A, B = 공집합 => 1
+//다중집합 = 두글자씩 끊어서
 class Solution {
     public int solution(String str1, String str2) {
         int answer = 0;
         List<String> str1List = toMultipleArr(str1);
         List<String> str2List = toMultipleArr(str2);
-        
         
         HashMap<String, Integer> hm1 = new HashMap<>();
         HashMap<String, Integer> hm2 = new HashMap<>();
@@ -24,8 +27,6 @@ class Solution {
         } else {
             same = getSameArr(hm2, hm1);
         }
-        System.out.println(str1List);
-        System.out.println(str2List);
         
         if(str1List.size() == 0 && str2List.size() == 0){
             return 65536;
@@ -34,11 +35,6 @@ class Solution {
         int sumCount = str1List.size() + str2List.size() - same;
         answer = (int) (((double) same/sumCount) * 65536);
 
-        System.out.println((double) same/sumCount);
-        System.out.println(sumCount);
-        
-        
-        
         return answer;
     }
     
@@ -53,7 +49,7 @@ class Solution {
             char first = str.charAt(i);
             char second = str.charAt(i+1);
             
-            if(first - '0' > 48 && second - '0' > 48){
+            if('a' <= first && first <= 'z' && 'a' <= second && second <='z'){
                 multipleList.add(String.valueOf(first) + String.valueOf(second));
             }
         }
@@ -72,11 +68,6 @@ class Solution {
         return sameCount;
     }
     
-    //합집합 = str1 + str2 - 교집합 
-    
 }
-
-//J(A,B) = A교B / A합B
-//A, B = 공집합 => 1
-//다중집합 = 두글자씩 끊어서 
+ 
 
