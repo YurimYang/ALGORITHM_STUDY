@@ -6,25 +6,27 @@ class Solution {
         long answer = 0;
         
         Arrays.sort(times);
-        long left = 0;
-        long right = times[times.length-1] * (long) n; // 60초 (최대 n명 * 가장 오래걸리는 시간)
         
-        while(left <= right){
-            long mid = (left + right) / 2;
+        long s = 0;
+        long e = (long) times[times.length - 1] * (long) n;
+        
+        while(s <= e){
+            long m = (s + e) / 2;
             
             long peopleCnt = 0;
             for(int time : times){
-                peopleCnt += mid/time;
+                peopleCnt += m/time;
             }
             
             if(peopleCnt < n){
-                left = mid+1;
+                s = m +1;
             } else {
-                answer = mid;
-                right = mid-1;
+                e = m-1;
+                answer = m;
             }
         }
-
+        
+        
         return answer;
     }
 }
