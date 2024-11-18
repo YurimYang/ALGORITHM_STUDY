@@ -3,22 +3,18 @@ import java.io.*;
 
 class Solution {
     public boolean solution(String[] phone_book) {
-        HashMap<String, Integer> hm = new HashMap<>();
-        
-        for(String str: phone_book){
-            hm.put(str, 1);
+        boolean answer = true;
+        Arrays.sort(phone_book);
+
+        for(int i = 0; i< phone_book.length-1; i++){
+            if(phone_book[i+1].startsWith(phone_book[i])){
+                return false;
+            }  
         }
-        
-        for(String phone_number : phone_book){
-            for(int j = 1; j<phone_number.length(); j++){
-                String tmpStr = phone_number.substring(0,j);
-                if(hm.containsKey(tmpStr)){
-                    return false;
-                }
-            }
-        }
-        
-        return true;
-        
+        return answer;
     }
 }
+//접두어 존재 = false
+//접두어 미존재 = true
+
+
