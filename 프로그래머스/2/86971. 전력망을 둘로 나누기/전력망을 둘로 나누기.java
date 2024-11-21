@@ -2,58 +2,56 @@ import java.util.*;
 import java.io.*;
 
 class Solution {
-    int[][] arr;
-    Queue<Integer> queue = new LinkedList<>();
+    static int[][] graph;
+    static int[] visited;
+    static int cnt = 0;
     public int solution(int n, int[][] wires) {
-        int answer = n;
-        arr = new int[n+1][n+1];
+        int answer = Integer.MAX_VALUE;
         
-        //인접행렬에 추가
-        for(int i = 0; i< wires.length; i++){
-            arr[wires[i][0]][wires[i][1]] = 1;
-            arr[wires[i][1]][wires[i][0]] = 1;
-        }
-        
-        //선을 끊으면서 순회
+        //2차원 배열에 송전탑 연결 정보 담기
+        graph = new int[n+1][n+1];
         for(int i = 0; i<wires.length; i++){
-            int a = wires[i][0];
-            int b = wires[i][1];
-            
-            arr[a][b] = 0;
-            arr[b][a] = 0;
-            
-            answer = Math.min(answer, bfs(n,a));
-            
-            arr[a][b] = 1;
-            arr[b][a] = 1;
-            
+            int x = wires[i][0];
+            int y = wires[i][1]; 
+            graph[x][y] = 1;
+            graph[y][x] = 1;
         }
         
+        
+        //송전탑을 하나씩 끊으면서 완전탐색 진행
+        for(int i = 0; i<wires.length; i++){
+            int x = wires[i][0];
+            int y = wires[i][1]; 
+            graph[x][y] = 0;
+            graph[y][x] = 0;
+            
+            visited = new int[n+1];
+            cnt = 0;
+            dfs(x);
+            int cnt1 = cnt;
+            
+            
+            
+            visited = new int[n+1];
+            cnt = 0;
+            dfs(y);
+            int cnt2 = cnt;
+            
+            answer = Math.min(answer, Math.abs(cnt1 - cnt2));
+            graph[x][y] = 1;
+            graph[y][x] = 1;
+        }
+
         return answer;
     }
     
-    public int bfs(int n, int start){
-        int[] visit = new int[n+1];
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(start);
-        int cnt = 1;
-        
-        while(!queue.isEmpty()){
-            int now = queue.poll();
-            visit[now] = 1;
-            
-            for(int i = 1; i<=n; i++){
-                if(visit[i] == 1){
-                    continue;
-                } 
-                if(arr[now][i] == 1){
-                    queue.add(i);
-                    cnt++;
-                }
+    public void dfs(int start){
+        visited[start] = 1;
+        for(int j = 1; j<graph.length; j++){
+            if(graph[start][j] > 0 && visited[j] == 0){
+                cnt++;
+                dfs(j);
             }
         }
-        
-        return (int) Math.abs(n - 2 * cnt); // cnt - (n-cnt) = cnt와 n-cnt개로 나뉘어 질 것. 
     }
-
 }
