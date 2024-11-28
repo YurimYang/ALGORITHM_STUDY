@@ -1,35 +1,49 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
 
         int n = Integer.parseInt(br.readLine());
-        int[] children = new int[n];
-        int[] dp = new int[n];
-        Arrays.fill(dp, 1);
+        int[] arr = new int[n];
+        int[] lis = new int[n];
         for (int i = 0; i < n; i++) {
-            children[i] = Integer.parseInt(br.readLine());
+            arr[i] = Integer.parseInt(br.readLine());
         }
 
-        int maximum = 0;
-        for (int i = 0; i < n; i++) {
-            int max = dp[i];
-            for (int j = 0; j < i; j++) {
-                if (children[i] > children[j] && dp[i] < dp[j] + 1) {
-                    dp[i] = dp[j] + 1;
-                    max = children[j];
+        int idx = 0;
+        lis[idx++] = arr[0];
+
+        for (int i = 1; i < n; i++) {
+            if (lis[idx - 1] < arr[i]) {
+                lis[idx++] = arr[i];
+            } else {
+                int start = 0;
+                int end = idx - 1;
+
+                while (start <= end) {
+                    int mid = start + (end - start) / 2;
+                    if (lis[mid] < arr[i]) {
+                        start = mid + 1;
+                    } else {
+                        end = mid - 1;
+                    }
                 }
+
+                lis[start] = arr[i];
             }
-            maximum = Math.max(maximum, dp[i]);
         }
 
-        System.out.println(n - maximum);
+        int cnt = 0;
+        for (int i = 0; i < n; i++) {
+            if (lis[i] > 0) {
+                cnt++;
+            }
+        }
+
+        System.out.println(n - cnt);
     }
 }
