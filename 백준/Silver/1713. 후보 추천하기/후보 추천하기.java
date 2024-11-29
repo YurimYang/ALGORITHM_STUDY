@@ -30,11 +30,7 @@ public class Main {
             timePlus();
         }
 
-        List<Person> list = new ArrayList<>();
-        while(!pq.isEmpty()){
-            Person person = pq.poll();
-            list.add(person);
-        }
+        List<Person> list = new ArrayList<>(pq);
 
         Collections.sort(list, (o1, o2) -> o1.num - o2.num);
 
