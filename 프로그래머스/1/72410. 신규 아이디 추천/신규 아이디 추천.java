@@ -1,9 +1,9 @@
 class Solution {
     public String solution(String new_id) {
-        // 1
+        // 1단계
         String answer = "";
         new_id = new_id.toLowerCase();
-        // 2
+        // 2단계
         for (int i = 0; i < new_id.length(); i++) {
             char ch = new_id.charAt(i);
             if (Character.isAlphabetic(ch) || 
@@ -11,36 +11,31 @@ class Solution {
                 ch == '-' || ch == '_' || ch == '.')
                 answer += ch;
         }
-        // 3
+        // 3단계
         while (answer.indexOf("..") != -1)
             answer = answer.replace("..", ".");
 
-        // 4
+        // 4단계
         if (!answer.isEmpty() && answer.charAt(0) == '.')
             answer = answer.substring(1);
         if (!answer.isEmpty() && answer.charAt(answer.length() - 1) == '.')
             answer = answer.substring(0, answer.length() - 1);
 
-        // 5
+        // 5단계
         if (answer.isEmpty())
             answer = "a";
 
-        // 6
+        // 6단계
         if (answer.length() > 15) {
             answer = answer.substring(0, 15);
             if (answer.charAt(answer.length() - 1) == '.')
                 answer = answer.substring(0, answer.length() - 1);
         }
 
-        // 7
+        // 7단계
         while (answer.length() < 3)
             answer += answer.charAt(answer.length() - 1);
 
         return answer;
-    }
-
-    public static void main(String[] args) {
-        Solution sol = new Solution();
-        System.out.print(sol.solution("=.="));
     }
 }
