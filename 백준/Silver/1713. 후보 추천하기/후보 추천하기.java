@@ -23,15 +23,12 @@ public class Main {
             int person = Integer.parseInt(st.nextToken());
             if(!cntPlus(person)) {
                 if(pq.size() == n){
-                    pq.poll();
-                    pq.offer(new Person(person, 1, 0));
-                } else {
-                    pq.offer(new Person(person, 1, 0));
-                }
+                    pq.poll();  
+                } 
+                pq.offer(new Person(person, 1, 0));
             }
             timePlus();
         }
-
 
         List<Person> list = new ArrayList<>();
         while(!pq.isEmpty()){
