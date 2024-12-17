@@ -10,11 +10,13 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
         PriorityQueue<Number> pq = new PriorityQueue<>(
             Comparator.comparingInt(o -> Math.abs(o.res)));
 
         int n = Integer.parseInt(br.readLine());
         int[] num = new int[n];
+
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
             num[i] = Integer.parseInt(st.nextToken());
@@ -33,7 +35,10 @@ public class Main {
             }
         }
 
-        System.out.println(pq.peek().num1 + " " + pq.poll().num2);
+        Number answer = pq.poll();
+        sb.append(answer.num1 + " " + answer.num2);
+
+        System.out.println(sb);
     }
 }
 
